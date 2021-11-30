@@ -2,7 +2,7 @@
   <div id="app" class="app">
     <transition name="fade" mode="out-in" appear>
       <div class="card">
-        <WeatherSearch />
+        <!-- <WeatherSearch /> -->
         <WeatherMain />
         <WeatherInfo />
       </div>
@@ -17,6 +17,13 @@ import WeatherInfo from "@/components/WeatherInfo";
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "App",
+  data() {
+    return {
+      location:null,
+      gettingLocation: false,
+      errorStr:null
+    }
+  },
   components: {
     WeatherSearch,
     WeatherMain,
@@ -27,12 +34,27 @@ export default {
   },
   methods: {
     ...mapActions(['store/fetchWeatherData']),
-    initData() {
-      this['store/fetchWeatherData'](this.$store.state.store.defaultSearch);
-    }
+    getCurrentLocation() {
+      if(!("geolocation" in navigator)) {
+        this.errorStr = 'Geolocation is not available.';
+        return;
+      }
+
+      this.gettingLocation = true;
+      // get position
+      navigator.geolocation.getCurrentPosition(pos => {
+        this.gettingLocation = false;
+        this.location = pos.coords;
+        this['store/fetchWeatherData'](this.location);
+        // this.setData();
+      }, err => {
+        this.gettingLocation = false;
+        this.errorStr = err.message;
+      })
+    },
   },
   created() {
-    this.initData();
+    this.getCurrentLocation();
   }
 };
 </script>
@@ -67,7 +89,7 @@ export default {
   font-family: "Jost", sans-serif;
 }
 body {
-  background-color: fade(#000, 30);
+  background-color: #E5E5E5;
   overflow: hidden;
 }
 .app {

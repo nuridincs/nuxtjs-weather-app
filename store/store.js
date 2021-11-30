@@ -4,7 +4,7 @@ const state = () => ({
   apiBase: "https://api.openweathermap.org/data/2.5/",
   apiKey: "fdf871cedaf3413c6a23230372c30a02",
   defaultSearch: "jakarta",
-  search: "",
+  search: {},
   isError: false,
   weatherData: {},
 })
@@ -32,7 +32,6 @@ const getters = {
     return state.weatherData.country;
   },
   isSearched(state) {
-    console.log('~ state', state);
     return state.search !== "";
   },
   getError(state) {
@@ -43,7 +42,7 @@ const getters = {
 const mutations = {
   SET_SEARCH(state, search) {
     if (!search) return;
-    state.search = search.toLowerCase();
+    state.search = search;
   },
   SET_WEATHER_DATA(state, data) {
     state.weatherData = data;
@@ -58,7 +57,7 @@ const actions = {
     try {
       commit("SET_SEARCH", search);
       const response = await axios.get(
-        `${state.apiBase}weather?q=${search}&units=metric&APPID=${state.apiKey}`
+        `${state.apiBase}weather?lat=${search.latitude}&lon=${search.longitude}&units=metric&APPID=${state.apiKey}`
       );
 
       const newWeatherData = {

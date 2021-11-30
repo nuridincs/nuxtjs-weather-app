@@ -5,6 +5,9 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'nuxtjs-weather-app',
+    bodyAttrs: {
+      class: 'bg-gray-300'
+    },
     htmlAttrs: {
       lang: 'en'
     },
