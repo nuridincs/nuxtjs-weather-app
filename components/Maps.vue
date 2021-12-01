@@ -30,20 +30,16 @@ export default {
   mixins: [Common],
 
   computed: {
-    google: gmapApi
+    google: gmapApi,
+    getCenter() {
+      return this.$store.state.store.coordinate;
+    },
   },
 
   props: {
     dataPlace: {
       type: Object,
       default: () => {},
-    },
-
-    centerLoc: {
-      type: Object,
-      default: () => ({
-        lat: -6.1841327, lng: 106.8293633,
-      }),
     },
   },
 
@@ -71,11 +67,8 @@ export default {
     },
   },
 
-  created() {
-    this.center = this.centerLoc;
-  },
-
   mounted() {
+    this.center = this.getCenter;
     this.init();
   },
 
@@ -207,12 +200,6 @@ export default {
         geocoder.geocode({ latLng: event.latLng }, (result, status) => {
           if (status === window.google.maps.GeocoderStatus.OK) {
             const results = result[0].address_components;
-            // console.log(results)
-            // const city = this.findResult(results, "administrative_area_level_2");
-            // const districts = this.findResult(results, "administrative_area_level_3");
-            // const province = this.findResult(results, "administrative_area_level_1");
-            // const country = this.findResult(results, "country");
-            // console.log(districts, city, province, country);
             this.setData(results, this.coordinates);
             this.$emit('is-drag', true);
           }
@@ -225,7 +212,7 @@ export default {
       const districts = this.findResult(detailAddress, "administrative_area_level_3");
       const province = this.findResult(detailAddress, "administrative_area_level_1");
       const country = this.findResult(detailAddress, "country");
-      
+
       const dataAddress = {
         districts,
         city,

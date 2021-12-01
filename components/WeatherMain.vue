@@ -1,22 +1,22 @@
 <template>
-  <div class="weather-main">
-    <div class="weather-feelsLike">
-      Feels like
-      <strong>
-        {{getWeatherMain.feelsLike | round}}
-        <sup>&deg;</sup>
-      </strong>
+  <div>
+    <div class="flex justify-evenly tab">
+      <div>
+        <a href="#" class="active">Fanrenheit</a>
+      </div>
+      <div>
+        <a href="#">Celcius</a>
+      </div>
     </div>
-    <div class="weather-temp">
-      <div
-        class="weather-icon"
-        :style="[getWeatherMain.icon ? {'background-image': 'url(http://openweathermap.org/img/wn/'+getWeatherMain.icon+'d@2x.png)'}: {}]"
-      ></div>
-      <span>{{getWeatherMain.temp | round}}</span>
-      <sup>&deg;</sup>
+    <div>
+      <img :src="icon" class="m-auto" alt="">
     </div>
-    <div class="weather-description">{{getWeatherMain.description}}</div>
-    <p></p>
+    <div class="text-large">{{ getWeatherMain.temp | round }}</div>
+    <div> 52.498611, 13.406889 </div>
+    <div class="my-5">
+      <div class="text-xl capitalize">{{ getWeatherMain.description }}</div>
+      <div class="text-sm">{{ date }}</div>
+    </div>
   </div>
 </template>
 
@@ -25,87 +25,45 @@ import { mapGetters } from "vuex";
 
 export default {
   data() {
-    return {};
+    return {
+      date: null,
+    };
   },
 
   computed: {
     ...mapGetters(["store/getWeatherMain"]),
     getWeatherMain() {
       return this["store/getWeatherMain"];
+    },
+    icon() {
+      return `http://openweathermap.org/img/wn/${this.getWeatherMain.icon}d@2x.png`;
     }
   },
+
+  created() {
+    this.getNow();
+  },
+
+  methods: {
+    getNow() {
+        const today = new Date();
+        const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        this.date = date;
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-.weather {
-  &-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    margin-top: 40px;
-    margin-bottom: 40px;
-    .weather {
-      &-temp {
-        position: relative;
-        width: 150px;
-        height: 150px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 100%;
-        box-shadow: 0 0 50px;
-        background-color: #fff;
-        margin: 40px 0;
-        span {
-          font-size: 80px;
-          font-weight: 800;
-          letter-spacing: -2px;
-          position: relative;
-        }
-        sup {
-          position: relative;
-          top: -21px;
-          font-size: 40px;
-        }
-      }
-      &-icon {
-        position: absolute;
-        top: -35px;
-        left: -35px;
-        width: 110px;
-        height: 110px;
-        background-repeat: no-repeat;
-        background-size: 100%;
-        filter: drop-shadow(1px 1px 0 fade(black, 3))
-          drop-shadow(-5px -5px 0 fade(black, 8));
-      }
-      &-feelsLike,
-      &-description {
-        font-size: 18px;
-        color: var(--darkColor);
-        text-transform: capitalize;
-        sup {
-          position: relative;
-          top: 5px;
-          left: -2px;
-          font-size: 18px;
-        }
-      }
-    }
-  }
+.tab {
+  width: 70%;
+  margin: 0 auto;
+  border-radius: 20px;
+  padding: 0.5rem;
+  background: linear-gradient(180deg, #3CD18A 0%, #3C6FD1 0.01%, #7CA9FF 100%);
 }
 
-@media (max-height: 767px) {
-  .weather-main {
-    margin-top: 30px;
-    margin-bottom: 30px;
-    .weather-temp {
-      width: 125px;
-      height: 125px;
-      margin: 30px 0;
-    }
-  }
+.text-large {
+  font-size: 36px;
 }
 </style>

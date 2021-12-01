@@ -4,6 +4,7 @@ const state = () => ({
   apiBase: "https://api.openweathermap.org/data/2.5/",
   apiKey: "fdf871cedaf3413c6a23230372c30a02",
   defaultSearch: "jakarta",
+  coordinate: {},
   search: {},
   isError: false,
   weatherData: {},
@@ -21,11 +22,12 @@ const getters = {
     };
   },
   getWeatherInfo(state) {
-    const { wind, clouds, humidity } = state.weatherData;
+    const { temp, wind, clouds, humidity } = state.weatherData;
     return {
       wind,
       clouds,
       humidity,
+      temp,
     };
   },
   getWeatherCountry(state) {
@@ -33,6 +35,9 @@ const getters = {
   },
   isSearched(state) {
     return state.search !== "";
+  },
+  coordinate(state) {
+    return state.coordinate;
   },
   getError(state) {
     return state.isError;
@@ -50,14 +55,18 @@ const mutations = {
   SET_ERROR(state, value) {
     state.isError = value;
   },
+  SET_COORDINATE(state, value) {
+    state.coordinate = value;
+  },
 };
 
 const actions = {
-  async fetchWeatherData({ commit, state }, search) {
+  async fetchWeatherData({ commit, state }, coordinate) {
     try {
-      commit("SET_SEARCH", search);
+      commit("SET_SEARCH", coordinate);
+      commit("SET_COORDINATE", coordinate);
       const response = await axios.get(
-        `${state.apiBase}weather?lat=${search.latitude}&lon=${search.longitude}&units=metric&APPID=${state.apiKey}`
+        `${state.apiBase}weather?lat=${coordinate.lat}&lon=${coordinate.lng}&units=metric&APPID=${state.apiKey}`
       );
 
       const newWeatherData = {

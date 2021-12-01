@@ -16,7 +16,6 @@
     <div class="maps-content">
       <Maps
         :data-place="place"
-        :center-loc="centerLoc"
         @is-drag="setDrag"
         @set-address="setAddress" />
     </div>
@@ -29,7 +28,7 @@
             </div>
 
             <div>
-              <div class="font-bold">
+              <div class="font-medium text-black">
                 {{ detailAddress.districts }}
               </div>
               <div class="text-sm text-gray-400">
@@ -41,8 +40,8 @@
             <div class="mr-2">
               <!-- <img src="~static/images/rain.png" alt="sun" /> -->
             </div>
-            <div>
-              72°
+            <div class="text-black">
+              {{ getWeatherInfo.temp | round }}°
             </div>
           </div>
         </div>
@@ -50,12 +49,12 @@
 
         <div class="flex justify-between items-center">
           <div class="mr-2">
-            <div class="text-sm">Longitude and latitude</div>
-            <div>{{ detailAddress.center.lng }}, {{ detailAddress.center.lat }}</div>
+            <div class="text-md text-black">Longitude and latitude</div>
+            <div class="text-gray-400 text-sm">{{ detailAddress.center.lng }}, {{ detailAddress.center.lat }}</div>
           </div>
-          <div>
+          <div class="text-black">
             <div class="text-sm">Wind</div>
-            <div>134 mp/h</div>
+            <div class="text-gray-400">{{ getWeatherInfo.wind }} mp/h</div>
           </div>
         </div>
         <hr class="my-5" />
@@ -69,18 +68,11 @@
 
 <script>
 import Maps from '@/components/Maps';
+import { mapGetters } from "vuex";
 
 export default {
   components: {
     Maps,
-  },
-  props: {
-    centerLoc: {
-      type: Object,
-      default: () => ({
-        lat: -6.1841327, lng: 106.8293633,
-      }),
-    },
   },
 
   data() {
@@ -97,6 +89,13 @@ export default {
         fields: ['geometry', 'address_components', 'formatted_address', 'name'],
       },
     };
+  },
+
+  computed: {
+    ...mapGetters(["store/getWeatherInfo"]),
+    getWeatherInfo() {
+      return this["store/getWeatherInfo"];
+    }
   },
 
   mounted() {
@@ -127,7 +126,6 @@ export default {
     },
 
     setAddress(payload) {
-      console.log(payload);
       this.detailAddress = payload;
     },
   },
@@ -160,13 +158,18 @@ export default {
   .has-search {
     display: flex;
     align-items: center;
+    background-color: #E5E5E5;
   }
 
   .input-search {
     padding-left: 2.375rem;
-    background-color: #eeeeee;
+    background-color: #ffffff;
     border: none;
     height: 36px;
+    border-radius: 20px;
+    margin: 1rem;
+    width: 100%;
+    color: black;
   }
 
   .form-control-feedback {
@@ -178,7 +181,7 @@ export default {
     text-align: center;
     pointer-events: none;
     color: #aaa;
-    margin: 0 10px;
+    margin: 0 30px;
   }
 }
 </style>
