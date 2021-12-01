@@ -19,7 +19,7 @@
               <img src="~static/icons/pressure.png" alt="">
             </div>
             <div>
-              <div class="text-black">{{ getWeatherInfo.wind }}</div>
+              <div class="text-black">{{ getWeatherInfo.wind }} mp/h</div>
               <div class="text-gray-400">Pressure</div>
             </div>
           </div>

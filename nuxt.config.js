@@ -14,7 +14,7 @@ export default {
   head: {
     title: 'nuxtjs-weather-app',
     bodyAttrs: {
-      class: 'bg-gray-300'
+      class: 'bg-gray-200'
     },
     htmlAttrs: {
       lang: 'en'

@@ -1,21 +1,21 @@
 <template>
   <div>
-    <div class="flex justify-evenly tab">
+    <div class="grid grid-cols-2 gap-4 tab">
       <div>
-        <a href="#" class="active" @click="changeTemp('imperial')">Fanrenheit</a>
+        <a href="#" :class="{ 'text-gray-300' : isActive === 'imperial' }" @click="changeTemp('imperial')">Fanrenheit</a>
       </div>
       <div>
-        <a href="#" @click="changeTemp('metric')">Celcius</a>
+        <a href="#" :class="{ 'text-gray-300' : isActive === 'metric' }" @click="changeTemp('metric')">Celcius</a>
       </div>
     </div>
     <div>
       <img :src="icon" class="m-auto" alt="">
     </div>
     <div class="text-large">{{ getWeatherMain.temp | round }}°</div>
-    <div> {{ coordinate.lat }}, {{ coordinate.lng }} </div>
+    <div class="text-gray-300"> {{ coordinate.lat }}, {{ coordinate.lng }} </div>
     <div class="my-5">
       <div class="text-xl capitalize">{{ getWeatherMain.description }}</div>
-      <div class="text-sm">{{ date }}</div>
+      <div class="text-sm text-gray-300">{{ date }}</div>
     </div>
   </div>
 </template>
@@ -27,6 +27,7 @@ export default {
   data() {
     return {
       date: null,
+      isActive: 'imperial'
     };
   },
 
@@ -50,12 +51,15 @@ export default {
   methods: {
     ...mapActions(['store/fetchWeatherData', 'store/setUnit']),
     getNow() {
-        const today = new Date();
-        const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        const now = new Date();
+        const date = days[now.getDay()] + ', ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear()
         this.date = date;
     },
 
     changeTemp(unit) {
+      this.isActive = unit;
       this['store/setUnit'](unit);
       this['store/fetchWeatherData'](this.coordinate);
     }

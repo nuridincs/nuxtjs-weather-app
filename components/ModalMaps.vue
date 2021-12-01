@@ -41,7 +41,7 @@
               <!-- <img src="~static/images/rain.png" alt="sun" /> -->
             </div>
             <div class="text-black">
-              {{ getWeatherInfo.temp | round }}°
+              {{ getWeatherInfo.temp | round }}°{{ temp }}
             </div>
           </div>
         </div>
@@ -95,6 +95,10 @@ export default {
     ...mapGetters(["store/getWeatherInfo"]),
     getWeatherInfo() {
       return this["store/getWeatherInfo"];
+    },
+    temp() {
+      if (this.$store.state.store.unit === 'imperial') return 'F';
+      return 'C'
     }
   },
 

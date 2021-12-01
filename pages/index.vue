@@ -80,8 +80,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import url("https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,400;0,700;0,800;0,900;1,300;1,500&display=swap");
-
 .header-container {
   background-color: #3C6FD1;
   color: white;
