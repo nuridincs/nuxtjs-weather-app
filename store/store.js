@@ -4,7 +4,8 @@ const state = () => ({
   apiBase: "https://api.openweathermap.org/data/2.5/",
   apiKey: "fdf871cedaf3413c6a23230372c30a02",
   defaultSearch: "jakarta",
-  district: "jakarta",
+  district: "",
+  unit: "imperial",
   coordinate: {},
   search: {},
   isError: false,
@@ -62,6 +63,9 @@ const mutations = {
   SET_DISTRICT(state, value) {
     state.district = value;
   },
+  SET_UNIT(state, value) {
+    state.unit = value;
+  },
 };
 
 const actions = {
@@ -70,7 +74,7 @@ const actions = {
       commit("SET_SEARCH", coordinate);
       commit("SET_COORDINATE", coordinate);
       const response = await axios.get(
-        `${state.apiBase}weather?lat=${coordinate.lat}&lon=${coordinate.lng}&units=metric&APPID=${state.apiKey}`
+        `${state.apiBase}weather?lat=${coordinate.lat}&lon=${coordinate.lng}&units=${state.unit}&APPID=${state.apiKey}`
       );
 
       const newWeatherData = {
@@ -96,8 +100,12 @@ const actions = {
     }
   },
 
-  setDistrict({ commit, state }, distc) {
+  setDistrict({ commit }, distc) {
     commit("SET_DISTRICT", distc);
+  },
+
+  setUnit({ commit }, distc) {
+    commit("SET_UNIT", distc);
   }
 };
 

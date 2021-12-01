@@ -2,16 +2,16 @@
   <div>
     <div class="flex justify-evenly tab">
       <div>
-        <a href="#" class="active">Fanrenheit</a>
+        <a href="#" class="active" @click="changeTemp('imperial')">Fanrenheit</a>
       </div>
       <div>
-        <a href="#">Celcius</a>
+        <a href="#" @click="changeTemp('metric')">Celcius</a>
       </div>
     </div>
     <div>
       <img :src="icon" class="m-auto" alt="">
     </div>
-    <div class="text-large">{{ getWeatherMain.temp | round }}</div>
+    <div class="text-large">{{ getWeatherMain.temp | round }}°</div>
     <div> {{ coordinate.lat }}, {{ coordinate.lng }} </div>
     <div class="my-5">
       <div class="text-xl capitalize">{{ getWeatherMain.description }}</div>
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   data() {
@@ -48,10 +48,16 @@ export default {
   },
 
   methods: {
+    ...mapActions(['store/fetchWeatherData', 'store/setUnit']),
     getNow() {
         const today = new Date();
         const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
         this.date = date;
+    },
+
+    changeTemp(unit) {
+      this['store/setUnit'](unit);
+      this['store/fetchWeatherData'](this.coordinate);
     }
   }
 };

@@ -9,7 +9,7 @@
             </div>
             <div>
               <div class="text-black">{{ getWeatherInfo.temp | round }}°</div>
-              <div class="text-gray-400">Fahrenheit</div>
+              <div class="text-gray-400">{{ temp }}</div>
             </div>
           </div>
         </div>
@@ -87,6 +87,10 @@ export default {
     ...mapGetters(["store/getWeatherInfo"]),
     getWeatherInfo() {
       return this["store/getWeatherInfo"]
+    },
+    temp() {
+      if (this.$store.state.store.unit === 'imperial') return 'Fahrenheit';
+      return 'Celcius'
     }
   },
 
