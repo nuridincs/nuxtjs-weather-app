@@ -20,7 +20,7 @@
         @set-address="setAddress" />
     </div>
     <div class="fixed-bottom shadow bg-white p-3">
-      <div v-if="detailAddress.districts" class="maps-info">
+      <div v-if="detailAddress.province" class="maps-info">
         <div class="flex justify-between items-center">
           <div class="flex items-center">
             <div class="mr-5">
@@ -104,7 +104,6 @@ export default {
 
   methods: {
     handleSelectLocation() {
-      this.$emit('set-place', this.address);
       this.$emit('close');
     },
 
@@ -114,6 +113,7 @@ export default {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         };
+        // this.geocoder(this.coordinate);
       });
     },
 
@@ -133,8 +133,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#modal-maps {
-  .fixed-bottom {
+#modal-maps {-bottom {
     position: fixed;
     right: 0;
     left: 0;

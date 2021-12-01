@@ -23,6 +23,7 @@
 <script>
 import Common from '~/mixins/Common';
 import { gmapApi } from 'vue2-google-maps';
+import { mapActions } from "vuex";
 
 export default {
   name: 'GoogleMap',
@@ -73,6 +74,8 @@ export default {
   },
 
   methods: {
+    ...mapActions(['store/fetchWeatherData', 'store/setDistrict']),
+
     init() {
       this.geolocate();
       this.setDefault();
@@ -162,7 +165,8 @@ export default {
         this.markers.push({ position: marker });
         this.center = marker;
         this.currentPlace = null;
-        this.setData(this.dataPlace.formatted_address, marker, this.dataPlace.name);
+        this.fetchData(this.dataPlace);
+        this.setData(this.dataPlace.address_components, marker, null);
       }
     },
 
@@ -188,11 +192,6 @@ export default {
       this.geocoder(location);
     },
 
-    findResult(results, name) {
-      const result = results.find(obj => obj.types[0] == name && obj.types[1] == "political")
-      return result ? result.long_name : null;
-    },
-
     geocoder(event) {
       this.$gmapApiPromiseLazy().then(() => {
         this.$emit('is-drag', true);
@@ -212,6 +211,7 @@ export default {
       const districts = this.findResult(detailAddress, "administrative_area_level_3");
       const province = this.findResult(detailAddress, "administrative_area_level_1");
       const country = this.findResult(detailAddress, "country");
+      this['store/setDistrict'](districts);
 
       const dataAddress = {
         districts,
@@ -223,6 +223,14 @@ export default {
       };
 
       this.$emit('set-address', dataAddress);
+    },
+
+    fetchData(data) {
+      const coords = {
+        lat: data.geometry.location.lat(),
+        lng: data.geometry.location.lng(),
+      };
+      this['store/fetchWeatherData'](coords);
     },
 
     centerChanged(payload) {

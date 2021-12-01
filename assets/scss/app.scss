@@ -1,0 +1,25 @@
+.pac-container {
+  z-index: 10000 !important;
+  width: 100% !important;
+  left: 0 !important;
+  // top: 55px !important;
+
+  .pac-item {
+    padding: 1rem;
+    font-size: 12px;
+    font-weight: 500;
+    color: #424242;
+
+    .pac-icon {
+      display: none;
+    }
+  }
+}
+
+.fixed-bottom {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+}

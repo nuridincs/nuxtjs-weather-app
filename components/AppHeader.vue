@@ -4,10 +4,20 @@
       <img src="~static/icons/arrow-left.png" alt="">
     </div>
     <div>
-      Jakarta
+      {{ district }}
     </div>
     <div>
       <img src="~static/icons/more.png" alt="">
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  computed: {
+    district() {
+      return this.$store.state.store.district;
+    }
+  }
+}
+</script>

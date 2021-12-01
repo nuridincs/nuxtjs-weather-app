@@ -4,6 +4,7 @@ const state = () => ({
   apiBase: "https://api.openweathermap.org/data/2.5/",
   apiKey: "fdf871cedaf3413c6a23230372c30a02",
   defaultSearch: "jakarta",
+  district: "jakarta",
   coordinate: {},
   search: {},
   isError: false,
@@ -58,6 +59,9 @@ const mutations = {
   SET_COORDINATE(state, value) {
     state.coordinate = value;
   },
+  SET_DISTRICT(state, value) {
+    state.district = value;
+  },
 };
 
 const actions = {
@@ -91,6 +95,10 @@ const actions = {
       commit("SET_WEATHER_DATA", {});
     }
   },
+
+  setDistrict({ commit, state }, distc) {
+    commit("SET_DISTRICT", distc);
+  }
 };
 
 export default {

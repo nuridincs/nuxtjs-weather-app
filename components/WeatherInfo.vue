@@ -61,10 +61,10 @@
         </div>
       </div>
 
-      <div class="mb-5">
+      <div class="py-5">
         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full" @click="toggle()">Add Location</button>
       </div>
-      <ModalMaps v-if="modalMaps" />
+      <ModalMaps v-if="modalMaps" @close="toggle()" />
     </div>
 </template>
 

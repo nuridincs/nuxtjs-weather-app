@@ -12,7 +12,7 @@
       <img :src="icon" class="m-auto" alt="">
     </div>
     <div class="text-large">{{ getWeatherMain.temp | round }}</div>
-    <div> 52.498611, 13.406889 </div>
+    <div> {{ coordinate.lat }}, {{ coordinate.lng }} </div>
     <div class="my-5">
       <div class="text-xl capitalize">{{ getWeatherMain.description }}</div>
       <div class="text-sm">{{ date }}</div>
@@ -37,6 +37,9 @@ export default {
     },
     icon() {
       return `http://openweathermap.org/img/wn/${this.getWeatherMain.icon}d@2x.png`;
+    },
+    coordinate() {
+      return this.$store.state.store.coordinate;
     }
   },
 

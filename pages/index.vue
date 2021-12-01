@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-screen-md m-auto">
     <div class="header-container">
-      <AppHeader />
+      <AppHeader name="district" />
       <WeatherMain />
       <WeatherInfo />
     </div>
@@ -13,9 +13,13 @@ import AppHeader from '@/components/AppHeader';
 import WeatherMain from "@/components/WeatherMain";
 import WeatherInfo from "@/components/WeatherInfo";
 import { mapGetters, mapActions } from "vuex";
+import { gmapApi } from 'vue2-google-maps';
+import Common from '~/mixins/Common';
 
 export default {
   name: "App",
+  mixins: [Common],
+
   data() {
     return {
       location:null,
@@ -29,10 +33,11 @@ export default {
     WeatherInfo
   },
   computed: {
-    ...mapGetters(["store/isSearched"])
+    google: gmapApi,
+    ...mapGetters(['store/isSearched'])
   },
   methods: {
-    ...mapActions(['store/fetchWeatherData']),
+    ...mapActions(['store/fetchWeatherData', 'store/setDistrict']),
     getCurrentLocation() {
       if(!("geolocation" in navigator)) {
         this.errorStr = 'Geolocation is not available.';
@@ -47,11 +52,25 @@ export default {
           lat: pos.coords.latitude,
           lng: pos.coords.longitude,
         };
+        this.geocoder(coords);
         this['store/fetchWeatherData'](coords);
       }, err => {
         this.gettingLocation = false;
         this.errorStr = err.message;
       })
+    },
+    geocoder(coords) {
+      this.$gmapApiPromiseLazy().then(() => {
+        const geocoder = new google.maps.Geocoder()
+
+        geocoder.geocode({ location: { lat: coords.lat, lng: coords.lng } }, (results, status) => {
+          if (status === 'OK') {
+            const result = results[0].address_components;
+            const districts = this.findResult(result, "administrative_area_level_3");
+            this['store/setDistrict'](districts);
+          }
+        });
+      });
     }
   },
   created() {
