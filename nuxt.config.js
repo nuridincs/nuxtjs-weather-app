@@ -1,6 +1,14 @@
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: false,
+  // ssr: false,
+  mode: 'spa',
+
+  env: {
+    API_URL: process.env.API_URL,
+    API_KEY: process.env.API_KEY,
+    API_GMAPS_KEY: process.env.API_GMAPS_KEY,
+    BASE_URL: process.env.BASE_URL || `http://localhost:${process.env.PORT}`,
+  },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -28,7 +36,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-      "~plugins/filters.js"
+      "~plugins/filters.js",
+      "~plugins/google-maps.js",
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

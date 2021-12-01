@@ -73,7 +73,7 @@
         </div>
       </div>
 
-      <div>
+      <div class="mb-5">
         <div class="py-5 text-xl">Tips</div>
         <div class="flex justify-around tips">
           <div>
@@ -82,16 +82,36 @@
           <div>Its ok to hangout with your friend!</div>
         </div>
       </div>
+
+      <div class="mb-5">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full" @click="toggle()">Add Location</button>
+      </div>
     </div>
+
+    <ModalMaps v-if="modalMaps" />
   </div>
 </template>
 
 <script>
 import AppHeader from '@/components/AppHeader';
+import ModalMaps from '@/components/ModalMaps';
 
 export default {
+  data() {
+    return {
+      modalMaps: false,
+    }
+  },
+
   components: {
-    AppHeader
+    AppHeader,
+    ModalMaps,
+  },
+
+  methods: {
+    toggle() {
+      this.modalMaps = !this.modalMaps;
+    },
   }
 }
 </script>
