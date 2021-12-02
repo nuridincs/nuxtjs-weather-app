@@ -3,6 +3,11 @@
 ### Demo
 https://nuxtjs-weather-app.netlify.app/
 
+### Screenshot
+![Alt text](/assets/img/screenshot/home.png?raw=true)
+![Alt text](/assets/img/screenshot/search.png?raw=true)
+![Alt text](/assets/img/screenshot/map.png?raw=true)
+
 ### Usage ###
 * clone repo https://github.com/nuridincs/nuxtjs-weather-app.git
 * go to directory
