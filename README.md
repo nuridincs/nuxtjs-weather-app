@@ -14,7 +14,7 @@ https://nuxtjs-weather-app.netlify.app/
 * copy .env-example to .env
 * fill value API_KEY openweathermap & API_GMAPS_KEY
 
-## Build Setup
+### Build Setup
 
 ```bash
 # install dependencies
