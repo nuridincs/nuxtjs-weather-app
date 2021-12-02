@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const state = () => ({
-  apiBase: "https://api.openweathermap.org/data/2.5/",
-  apiKey: "fdf871cedaf3413c6a23230372c30a02",
+  apiBase: process.env.API_URL,
+  apiKey: process.env.API_KEY,
   defaultSearch: "jakarta",
   district: "",
   unit: "imperial",
